@@ -19,17 +19,6 @@ LEARN_VARIABLES_MODE = 1
 CREATE_SCHEDULE_MODE = 2
 SHOW_UTIL_MODE = 3
 
-# # Icons
-# NEXT_ICON = "icons/angle-right-solid.svg"
-# BACK_ICON = "icons/angle-left-solid.svg"
-# SETTINGS_ICON = "icons/cog-solid.svg"
-# CREATE_ICON = "icons/plus-stick.svg"
-# # Fonts
-# HEADER_FONT = 20
-# TIP_FONT = 10
-# LIST_FONT = 12
-# BTN_FONT = 12
-
 
 class Assets:
     def __init__(self):
