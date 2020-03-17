@@ -1,0 +1,57 @@
+QWidget {
+    background-color: #2156AD;
+    color: #E5E5E5;
+    font-family: 'century gothic';
+    outline: 0;
+}
+QTableWidget {
+    border: none;
+}
+QTableView
+{
+    outline: 0;
+}
+QTableWidget QAbstractItemView {
+    border-left: 1px solid #124180
+}
+
+QTableView::item {
+    border-left: 1px solid #124180;
+}
+QTableView::item:selected:active {
+    background-color: #1E69FF;
+    color: #252525;
+}QTableView::item:selected:active:hover {
+    background-color: #154797;
+    color: #252525;
+}
+
+QTableView::item:selected:!active {
+    background-color: #1E69FF;
+    color: #252525;
+}QTableView::item:selected:!active:hover {
+    background-color: #154797;
+    color: #252525;
+}
+
+QPushButton {
+    border: none;
+    border-radius: 0px;
+    background-color: #154797;
+    color: #E5E5E5;
+}
+QPushButton:hover {
+    border: none;
+    background-color: #124180;
+    color: #E5E5E5;
+}
+/* 
+#btnMonth, #btnYear, #btnPrevious, #btnFollowing {
+    border: none;
+    background-color: #154797;
+    color: #E5E5E5;
+}#btnMonth:hover, #btnYear:hover, #btnPrevious:hover, #btnFollowing:hover{
+    border: none;
+    background-color: #124180;
+    color: #E5E5E5;
+} */

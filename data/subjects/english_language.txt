@@ -1,0 +1,95 @@
+SUBJECT NAME:
+	English language
+	
+COMPREHENSION LEVELS:
+	1. Beginner
+	2. Pre-Intermidiate
+	3. Intermidiate
+	4. Upper-Intermidiate
+	5. Advanced
+	6. Proficiency
+
+	LEVELS DESCRIPTIONS:
+		1. Базовый словарный запас, понимание коротких фраз
+		2. Чтение диалогов, базовая грамматика, несложное аудирование
+		3. Беглый английский: способность учавствовать в дискуссиях, понимание речи носителся в рамках изученных тем
+		4. Уверенное изложение собственных мыслей, выработка правильного произношения
+		5. Свободное владение языком, отсутствие грамматических ошибок
+		6. Английский на уровне носителя, доскональное знание грамматики и возможность преподавать
+	
+	LEVELS SYSTEM:
+		Система уровней CEFR
+
+
+LEARNING TOOLS:
+
+	METHODS:
+		NUMBER: 1
+		NAME: 
+	
+	BOOKS:
+		NUMBER: 1
+		NAME: Python3 и PyQt5. Разработка приложений
+		AUTHOR: Н. Прохоренок
+		LEVEL: AVERAGE-SKILLED
+		DESCRIPTION: Книга содержит очень много сухой информации, для новичков будет не очень, но для среднячков будет полезен.
+		LINKS:
+		PAGES: 833
+
+		NUMBER: 2
+		NAME: Programming Python, 4-th Edition
+		AUTHOR: Mark Lutz
+		LEVEL: NOVICE-PROFESSIONAL
+		DESCRIPTION: This book can fully eplain Python's evoltuion, it's story and philosophy
+		LINKS:
+		PAGES: 1503
+		
+		NUMBER: 3
+		NAME: Programming. Principles and practice using C++
+		AUTHOR: Bjarne Straustrup
+		LEVEL: NOVICE-SKILLED
+		DESCRIPTION: This book is one of the best desicion to start learn programming
+		LINKS: www.example.com
+		PAGES: 1360
+
+		NUMBER: 4
+		NAME: Digital signals processing
+		AUTHOR: Unknown
+		LEVEL: SKILLED-PROFESSIONAL
+		DESCRIPTION: In this book you can find algorithms of processing and storing digital signals
+		LINKS: www.example.com
+		PAGES: 976
+
+
+	LECTURES:
+		NUMBER: 1
+		NAME: Lecture 1. Python basics
+		AUTHOR: Someone
+		LEVEL: NOVICE-AVERAGE
+		DESCRIPTION: Lecture about Python basic concepts
+		LINKS: www.example.com
+		LENGTH: 01:32:00
+
+		NUMBER: 2
+		NAME: Lecture 1. Python preparing professional workplace
+		AUTHOR: Some smart one
+		LEVEL: AVERAGE-SKILLED
+		DESCRIPTION: Lecture about preparing professional workplace for Python programming
+		LINKS: www.example.com
+		LENGTH: 01:19:00
+		
+
+	WEB RESOURCES:
+		NUMBER: 1
+		NAME: Code Train(YouTube channel)
+		AUTHOR: Someone
+		LEVEL: NOVICE-SPECIALIST
+		DESCRIPTION: Very interesting YouTube channel where you could see practice of programming, and try implement showed project on your own
+		LINKS: www.youtube.com
+
+		NUMBER: 2
+		NAME: ExtremeCode(YouTube channel)
+		AUTHOR: Someone
+		LEVEL: NOVICE-SPECIALIST
+		DESCRIPTION: Very interesting YouTube channel where you could find useful videos about programming
+		LINKS: www.youtube.com

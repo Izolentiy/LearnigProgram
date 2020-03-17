@@ -1,0 +1,137 @@
+QWidget {
+    background-color: #2156AD;
+    color: #E5E5E5;
+    font-family: 'century gothic';
+}
+QAbstractItemView {
+    outline: 0;
+}
+QListView {
+    border: 2px solid #154797;
+    /* background-color: #3278ff; */
+    alternate-background-color: #1E50A1;
+    color: #E5E5E5;
+}
+QListWidget:item:hover {
+    background-color: #154797;
+}
+QTextEdit {
+    border: 2px solid #154797;
+    /* background-color: #3278FF; */
+    color: #E5E5E5;
+}
+QListView::item:selected:active,QTableView::item:selected:active {
+    background-color: transparent;
+    color: #0a0a0a;
+}QListView::item:selected:active:hover,QTableView::item:selected:active:hover {
+    background-color: #154797;
+    color: #0a0a0a;
+}
+QListView::item:selected:!active,QTableView::item:selected:!active {
+    background-color: transparent;
+    color: #0a0a0a;
+}QListView::item:selected:!active:hover,QTableView::item:selected:!active:hover {
+    
+    background-color: #154797;
+    color: #0a0a0a;
+}
+QPushButton {
+    border: 2px solid #154797;
+    border-radius: 30px;
+    color: #E5E5E5;
+    outline: 0;
+}
+QPushButton:hover {
+    border: none;
+    background-color: #154797;
+    color: #E5E5E5;
+}
+QPushButton:pressed {
+    background-color: #124180;
+    color: #F0F0F0;
+}
+QPushButton:checked{
+    border: none;
+    background-color: #154797;
+    color: #F0F0F0;
+}
+QPushButton:checked:hover {
+    border: none;
+    background-color: #1964dc;
+    color: #FFFFFF;
+}
+
+/* Дальше идёт дикий говнокод */
+QComboBox{  border: 2px solid #154797;  }
+QComboBox:editable {  background: #154797;  }
+QComboBox:!editable, QComboBox::drop-down:editable {  background: #154797;  }
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {  background: #154797;  }
+QComboBox:down-arrow {
+    image: url(./icons/angle-down-solid);
+    width: 16px;
+    height: 16px;
+}
+QComboBox::drop-down {
+    border: 2px solid #124180;
+    width: 30px;
+}
+#jobTime_list::drop-down {
+    border: 1px solid #124180;
+    width: 15px;
+}#sleepTime_list::drop-down {
+    border: 1px solid #124180;
+    width: 15px;
+}#studyTime_list::drop-down {
+    border: 1px solid #124180;
+    width: 15px;
+}#sort_list::drop-down {
+    border: 1px solid #124180;
+    width: 15px;
+}#repeatTime_list::drop-down {
+    border: 1px solid #124180;
+    width: 15px;
+}#learnTime_list::drop-down {
+    border: 1px solid #124180;
+    width: 15px;
+}
+#jobTime_list::down-arrow {
+    image: url(./icons/angle-down-solid);
+    width: 12px;
+    height: 12px;
+}#sleepTime_list::down-arrow {
+    image: url(./icons/angle-down-solid);
+    width: 12px;
+    height: 12px;
+}#studyTime_list::down-arrow {
+    image: url(./icons/angle-down-solid);
+    width: 12px;
+    height: 12px;
+}#sort_list::down-arrow {
+    image: url(./icons/angle-down-solid);
+    width: 12px;
+    height: 12px;
+}#repeatTime_list::down-arrow {
+    image: url(./icons/angle-down-solid);
+    width: 12px;
+    height: 12px;
+}#learnTime_list::down-arrow {
+    image: url(./icons/angle-down-solid);
+    width: 12px;
+    height: 12px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid #154797;
+    selection-background-color: #154797;
+    outline: 0;
+}
+
+QProgressBar {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 4px;
+    border: none;
+}
+QProgressBar:chunk {  background-color: #124180;  }
+
+#name { // border: 2px solid #154797; }
