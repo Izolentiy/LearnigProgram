@@ -93,9 +93,9 @@ class ScreenController(QMainWindow):
 
     # Методы для работы с виджетами
     def set_screen(self):
-        # Start screens
+        # Начальный экран
         if self.operate_mode == Constants.START_MODE:
-            # Setting up central widget
+            # Установка центрального виджет
             self.start_screen[self.start_scr_index].setupUi(self, self.assets)
             if isinstance(self.start_screen[self.start_scr_index], StartScreen.StartScreen):
                 self.startScreen.btnCreate.clicked.connect(self.button_processor)
@@ -107,13 +107,13 @@ class ScreenController(QMainWindow):
                 print('something went wrong')
 
         elif self.operate_mode == Constants.CREATE_SCHEDULE_MODE:
-            # Setting up central widget
+            # Установка центрального виджета
             self.create_screen[self.create_scr_index].setupUi(self, self.assets)
             self.update_page_bar(self.create_screen, self.create_scr_index)
-            # Connect buttons
+            # Соединение кнопок
             self.create_screen[self.create_scr_index].btnNext.clicked.connect(self.button_processor)
             self.create_screen[self.create_scr_index].btnBack.clicked.connect(self.button_processor)
-            # Loading screen data
+            # Загрузка данных для центрального виджета
             self.dataProcessor.get_data(self.create_screen[self.create_scr_index])
             if self.operate_mode == 23423:
                 pass
