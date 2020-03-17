@@ -4,6 +4,7 @@ from PyQt5 import QtCore, QtWidgets
 class BaseScreen(QtWidgets.QWidget):
 
     # There we setting up central widget in window and connecting assets
+    # Здесь мы устанавливаем центральный виджет в главное окно и соединяем его с активами(ресурсами)
     def setupUi(self, main_window, assets):
         self.assets = assets
         self.main_widget = QtWidgets.QWidget()
@@ -12,6 +13,7 @@ class BaseScreen(QtWidgets.QWidget):
         self.translate_text(main_window)
 
     # There we are create and configure central widget
+    # Здесь мы создаем и настравиваем центральный виджет
     def init_widget(self):
         mainLayout = QtWidgets.QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
@@ -29,6 +31,7 @@ class BaseScreen(QtWidgets.QWidget):
         self.main_widget.setLayout(mainLayout)
 
     # There inited base components of each inherited screen(page bar, header, navigation buttons)
+    # Здесь инициализируем базовые компоненты для каждого дочернего окна(виджета) [прогрес бар, загаловок, и кнопки снизу]
     def init_base(self, layout):
         """ Icons and other assets should be defined from the one python file """
         # Icons
@@ -85,11 +88,13 @@ class BaseScreen(QtWidgets.QWidget):
         layout.addLayout(functionalLayout)  # Adding functional layout in to contentLayout
 
     # There will be inited individual components for each inherited screen
+    # Здесь каждый наследующий виджет будет определять свое содержимое
     def init_content(self, layout):
         # There is should be individual widgets for each sub-screen
         pass
 
     # There will be inited all text content of inherited screen
+    # В этом методе будут транслироваться надписи
     def translate_text(self, main_window):
         # This method should be deleted in the future, each string on each screen should be defined in special file
         pass

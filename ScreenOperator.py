@@ -19,23 +19,23 @@ class ScreenController(QMainWindow):
     # Constructor
     def __init__(self):
 
-
         # Init screen operator (main window)
         super().__init__()
-        # self.setWindowIcon(icon)s
+
+        # Настраиваем главное окно
         self.setMinimumSize(500, 600)
         self.resize(1100, 650)
         self.setWindowTitle("Learning program")
-        # Init util python scripts
+        # Определяем вспомогательные пайтон скрипты
         self.dataProcessor = DataProcessor()
         self.assets = Constants.Assets()
 
-        # Init operation mode and start screen
+        # Опеределям начальный режим окна, и инициализируем виджеты начального окна
         self.operate_mode = Constants.START_MODE
         self.startScreen = StartScreen.StartScreen()
         self.fileTypeScreen = OutputTypeScreen.CreateType()
 
-        # Init "create-mode" screens
+        # Инициализиурем виджеты для режима "создание учебного плана"
         self.chooseSubjectScreen = ChooseSubjectScreen.SubjectScreen()
         self.indicateLevelScreen = IndicateLevelScreen.LevelsScreens()
         self.chooseMaterialScreen = ChooseMaterialScreen.MaterialsScreen()
@@ -43,15 +43,15 @@ class ScreenController(QMainWindow):
         self.yourScheduleScreen = YourScheduleScreen.ScheduleScreen()
         self.yourFullJourneyScreen = YourFullJourneyScreen.Ui_main_window()
         self.congratulationsScreen = CongratulationsScreen.Ui_main_window()
-        # Init "variables-mode" screens
+        # Инициализируем виджеты для режима "определние переменных обучения"
         self.abilitiesScreen = LearnAbilityScreen.AbilitiesScreen()
         self.environmentScreen = EnvironmentScreen.EnvironmentScreen()
-        # Init "util_mode" screens
+        # Инициализируем виджеты для режима "вспомогательные экраны" (настройки, окно просмотра материалов)
         self.materialExplorerScreen = MaterialExplorerScreen.MaterialExplorer()
         self.settingsScreen = None
         self.informationScreen = None
 
-        # "start-mode" screens
+        # Создаем список экранов для каждого режима окна и индексы к ним
         self.start_screen = [self.startScreen, self.fileTypeScreen]
         self.start_scr_index = 0
         # "create-schedule" screens
@@ -65,21 +65,20 @@ class ScreenController(QMainWindow):
         # Util screens
         self.util_screen = [self.materialExplorerScreen, self.informationScreen, self.settingsScreen]
         self.util_scr_index = 0
-        # self.set_page_bars(self.util_screens)
         self.util_showed = False
 
-        # Window settings
+        # Вспомогательные флаги, для настройки отображения окна
         flags = self.windowFlags() | Qt.WindowStaysOnTopHint
         self.setWindowFlags(flags)
-        # Style initialization
+        # Инициализация стилей
         self.calendarStyleOn = False
         self.update_style()
 
-        # Show window
+        # Отображение окна
         self.set_screen()
         self.show()
 
-    # Util methods
+    # Вспомогательные методы
     def update_style(self):
         self.calendarStyleOn = True
         try:
@@ -90,9 +89,9 @@ class ScreenController(QMainWindow):
     def update_page_bar(self, screens, curr_scr_index):
         screens[curr_scr_index].page_bar.setRange(0, len(screens))
         screens[curr_scr_index].page_bar.setValue(curr_scr_index + 1)
-        self.assets = self.assets
+        self.clueless = None
 
-    # Screen update methods
+    # Методы для работы с виджетами
     def set_screen(self):
         # Start screens
         if self.operate_mode == Constants.START_MODE:
@@ -270,7 +269,7 @@ class ScreenController(QMainWindow):
         self.materialExplorerScreen.btnBack.clicked.connect(self.button_processor)
         self.materialExplorerScreen.titles_list.clicked.connect(self.button_processor)
 
-    # Signals processors
+    # Обработчики сигналов по типу нажатие на клавишу, но они не обязательны, просто щупал их
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.close()
