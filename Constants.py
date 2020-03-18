@@ -21,6 +21,7 @@ SHOW_UTIL_MODE = 3
 
 
 class Assets:
+    
     def __init__(self):
         # Icons
         nextIcon = QtGui.QIcon()
