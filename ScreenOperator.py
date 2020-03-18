@@ -1,4 +1,5 @@
 import os
+import traceback
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QTableWidget
@@ -93,71 +94,78 @@ class ScreenController(QMainWindow):
 
     # Методы для работы с виджетами
     def set_screen(self):
-        # Начальный экран
-        if self.operate_mode == Constants.START_MODE:
-            # Установка центрального виджет
-            self.start_screen[self.start_scr_index].setupUi(self, self.assets)
-            if isinstance(self.start_screen[self.start_scr_index], StartScreen.StartScreen):
-                self.startScreen.btnCreate.clicked.connect(self.button_processor)
-            elif isinstance(self.start_screen[self.start_scr_index], OutputTypeScreen.CreateType):
-                self.fileTypeScreen.btnBack.clicked.connect(self.button_processor)
-                self.fileTypeScreen.btnSchedule.clicked.connect(self.button_processor)
-                self.fileTypeScreen.btnVars.clicked.connect(self.button_processor)
+        try:
+            # Если режим окна начальный, то будет выполняться этот блок
+            if self.operate_mode == Constants.START_MODE:
+                # Установка центрального виджета
+                self.start_screen[self.start_scr_index].setupUi(self, self.assets)
+                if isinstance(self.start_screen[self.start_scr_index], StartScreen.StartScreen):
+                    self.startScreen.btnCreate.clicked.connect(self.button_processor)
+                elif isinstance(self.start_screen[self.start_scr_index], OutputTypeScreen.CreateType):
+                    self.fileTypeScreen.btnBack.clicked.connect(self.button_processor)
+                    self.fileTypeScreen.btnSchedule.clicked.connect(self.button_processor)
+                    self.fileTypeScreen.btnVars.clicked.connect(self.button_processor)
+                else:
+                    print('something went wrong')
+
+            # Если режим окна "создание учебного плана", то будет выполняться этот блок
+            elif self.operate_mode == Constants.CREATE_SCHEDULE_MODE:
+                # Установка центрального виджета
+                self.create_screen[self.create_scr_index].setupUi(self, self.assets)
+                self.update_page_bar(self.create_screen, self.create_scr_index)
+                # Соединение кнопок
+                self.create_screen[self.create_scr_index].btnNext.clicked.connect(self.button_processor)
+                self.create_screen[self.create_scr_index].btnBack.clicked.connect(self.button_processor)
+                # Загрузка данных для центрального виджета
+                self.dataProcessor.get_data(self.create_screen[self.create_scr_index])
+                if self.operate_mode == 23423:
+                    pass
+                # Настройка виджета для выбора материалов
+                elif isinstance(self.create_screen[self.create_scr_index], ChooseMaterialScreen.MaterialsScreen):
+                    # Connect buttons
+                    self.chooseMaterialScreen.btnBooks.clicked.connect(self.button_processor)
+                    self.chooseMaterialScreen.btnLectures.clicked.connect(self.button_processor)
+                    self.chooseMaterialScreen.btnWebRes.clicked.connect(self.button_processor)
+                # Life factors screen
+                elif isinstance(self.create_screen[self.create_scr_index], LifeFactorsScreen.Ui_main_window):
+                    # Setting up calendar style
+                    if self.calendarStyleOn:
+                        self.lifeFactorScreen.calendar.set_style()
+                    # Connect buttons
+                    self.lifeFactorScreen.btnFree.toggled.connect(self.button_processor)
+                    self.lifeFactorScreen.btnJob.toggled.connect(self.button_processor)
+                    self.lifeFactorScreen.btnStudy.toggled.connect(self.button_processor)
+                    # Connect to calendar
+                    self.lifeFactorScreen.calendar.connect_external(self.lifeFactorScreen)
+                # Other statements
+                else:
+                    pass
+
+            # Если режим окна "определение переменных обучения", то будет выполняться этот блок
+            elif self.operate_mode == Constants.LEARN_VARIABLES_MODE:
+                # Setting up central widget
+                self.vars_screen[self.vars_scr_index].setupUi(self, self.assets)
+                self.update_page_bar(self.vars_screen, self.vars_scr_index)
+                # Connect buttons
+                self.vars_screen[self.vars_scr_index].btnNext.clicked.connect(self.button_processor)
+                self.vars_screen[self.vars_scr_index].btnBack.clicked.connect(self.button_processor)
+
+            # Если режим окна "отображение вспомогательных окон", то будет выполняться этот блок
+            elif self.operate_mode == Constants.SHOW_UTIL_MODE:
+                button = self.sender()
+                self.util_screen[self.util_scr_index].setupUi(self, self.assets)
+                self.materialExplorerScreen.header.setText(button.text())  # Setting up window content
+                self.dataProcessor.get_data(self.materialExplorerScreen)  # Loading screen data
+                # Connect buttons
+                self.materialExplorerScreen.btnBack.clicked.connect(self.button_processor)
+                self.materialExplorerScreen.titles_list.clicked.connect(self.button_processor)
+                pass
+
             else:
                 print('something went wrong')
-
-        elif self.operate_mode == Constants.CREATE_SCHEDULE_MODE:
-            # Установка центрального виджета
-            self.create_screen[self.create_scr_index].setupUi(self, self.assets)
-            self.update_page_bar(self.create_screen, self.create_scr_index)
-            # Соединение кнопок
-            self.create_screen[self.create_scr_index].btnNext.clicked.connect(self.button_processor)
-            self.create_screen[self.create_scr_index].btnBack.clicked.connect(self.button_processor)
-            # Загрузка данных для центрального виджета
-            self.dataProcessor.get_data(self.create_screen[self.create_scr_index])
-            if self.operate_mode == 23423:
-                pass
-            # Choose material screen
-            elif isinstance(self.create_screen[self.create_scr_index], ChooseMaterialScreen.MaterialsScreen):
-                # Connect buttons
-                self.chooseMaterialScreen.btnBooks.clicked.connect(self.button_processor)
-                self.chooseMaterialScreen.btnLectures.clicked.connect(self.button_processor)
-                self.chooseMaterialScreen.btnWebRes.clicked.connect(self.button_processor)
-            # Life factors screen
-            elif isinstance(self.create_screen[self.create_scr_index], LifeFactorsScreen.Ui_main_window):
-                # Setting up calendar style
-                if self.calendarStyleOn:
-                    self.lifeFactorScreen.calendar.set_style()
-                # Connect buttons
-                self.lifeFactorScreen.btnFree.toggled.connect(self.button_processor)
-                self.lifeFactorScreen.btnJob.toggled.connect(self.button_processor)
-                self.lifeFactorScreen.btnStudy.toggled.connect(self.button_processor)
-                # Connect to calendar
-                self.lifeFactorScreen.calendar.connect_external(self.lifeFactorScreen)
-            # Other statements
-            else:
-                pass
-
-        elif self.operate_mode == Constants.LEARN_VARIABLES_MODE:
-            # Setting up central widget
-            self.vars_screen[self.vars_scr_index].setupUi(self, self.assets)
-            self.update_page_bar(self.vars_screen, self.vars_scr_index)
-            # Connect buttons
-            self.vars_screen[self.vars_scr_index].btnNext.clicked.connect(self.button_processor)
-            self.vars_screen[self.vars_scr_index].btnBack.clicked.connect(self.button_processor)
-
-        elif self.operate_mode == Constants.SHOW_UTIL_MODE:
-            button = self.sender()
-            self.util_screen[self.util_scr_index].setupUi(self, self.assets)
-            self.materialExplorerScreen.header.setText(button.text())  # Setting up window content
-            self.dataProcessor.get_data(self.materialExplorerScreen)  # Loading screen data
-            # Connect buttons
-            self.materialExplorerScreen.btnBack.clicked.connect(self.button_processor)
-            self.materialExplorerScreen.titles_list.clicked.connect(self.button_processor)
-            pass
-
-        else:
-            print('something went wrong')
+        except (RuntimeError, TypeError, NameError):
+            stack = traceback.extract_stack()
+            print('Что-то пошло не так в методе: {}'.format(stack[-1][2]))
 
     def button_processor(self):
         if self.sender().objectName() == "btnCreate":
@@ -189,9 +197,8 @@ class ScreenController(QMainWindow):
                     self.operate_mode = Constants.START_MODE
                 else:
                     self.vars_scr_index -= 1
-                # self.dataProcessor.set_data(self.create_screen[self.create_scr_index])
             else:
-                print('btnBack works uncorrect')
+                pass
             self.set_screen()
 
         elif self.sender().objectName() == "btnSchedule":
