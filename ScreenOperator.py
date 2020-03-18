@@ -19,7 +19,6 @@ class ScreenController(QMainWindow):
     # Constructor
     def __init__(self):
 
-
         # Init screen operator (main window)
         super().__init__()
         # self.setWindowIcon(icon)s
