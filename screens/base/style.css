@@ -1,14 +1,19 @@
+/*
+    There is defined style for base screens
+*/
 QWidget {
     background-color: #2156AD;
     color: #E5E5E5;
-    font-family: 'century gothic';
+    font-family: 'consolas';
 }
 QAbstractItemView {
     outline: 0;
 }
+QLineEdit {
+    border: 2px solid #154797;
+}
 QListView {
     border: 2px solid #154797;
-    /* background-color: #3278ff; */
     alternate-background-color: #1E50A1;
     color: #E5E5E5;
 }
@@ -133,5 +138,3 @@ QProgressBar {
     border: none;
 }
 QProgressBar:chunk {  background-color: #124180;  }
-
-#name { // border: 2px solid #154797; }

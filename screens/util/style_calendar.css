@@ -1,7 +1,10 @@
+/*
+    There is defined style for calendar widget
+*/
 QWidget {
     background-color: #2156AD;
     color: #E5E5E5;
-    font-family: 'century gothic';
+    font-family: 'consolas';
     outline: 0;
 }
 QTableWidget {
@@ -45,13 +48,3 @@ QPushButton:hover {
     background-color: #124180;
     color: #E5E5E5;
 }
-/* 
-#btnMonth, #btnYear, #btnPrevious, #btnFollowing {
-    border: none;
-    background-color: #154797;
-    color: #E5E5E5;
-}#btnMonth:hover, #btnYear:hover, #btnPrevious:hover, #btnFollowing:hover{
-    border: none;
-    background-color: #124180;
-    color: #E5E5E5;
-} */
