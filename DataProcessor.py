@@ -6,6 +6,7 @@ from screens.create import ChooseSubjectScreen, LifeFactorsScreen, ChooseMateria
 from screens.util import MaterialExplorerScreen
 
 
+# Этот класс надо будет передлать
 class UserData:
     def __init__(self):
         self.subject = ''
@@ -17,9 +18,11 @@ class UserData:
         self.levels = {self.start_level: '', self.finish_level: ''}
 
 
+# Этот класс надо будет переделать и вообще по красоте было бы реализовать здесь
+# работу с.xml файлами, а не с ссаными .txt
 class DataProcessor:
 
-    # Constructor
+    # Конструктор
     def __init__(self):
         # Initializing source files
         self.subjects_list = os.path.join(os.path.dirname(__file__), 'data/SubjectsList.txt')
@@ -42,7 +45,7 @@ class DataProcessor:
         self.job_days = []
         self.study_days = []
 
-    # Get data for the screens from the file
+    # Получение данных для экранов (текст, значения и прочее)
     def get_data(self, screen):
         # Get data for the Subject choose screen
         if isinstance(screen, ChooseSubjectScreen.SubjectScreen):
@@ -103,7 +106,7 @@ class DataProcessor:
                 screen.studyTime_list.addItem(str(hour))  # Fill study time list
                 screen.jobTime_list.addItem(str(hour))  # Fill job time list
 
-    # Set defined user data in to the screens
+    # Отправка данных с экранов обрабочик данных (этот метод потом надо будет переделать)
     def set_data(self, screen):
         # Set data for the Subject choose screen
         if isinstance(screen, ChooseSubjectScreen.SubjectScreen):
@@ -137,12 +140,12 @@ class DataProcessor:
                 screen.studyTime_list.addItem(str(hour))  # Fill study time list
                 screen.jobTime_list.addItem(str(hour))  # Fill job time list
 
-    # Save data in to the file
+    # Сохранение данных в файл
     def save_data(self, path=None):
         if path is not None:
             pass
 
-    # Init learning tools from the file
+    # Инициализация материалов обучения из файла
     def define_material(self, subject, material_type, screen):
         file = open(self.materials_list, "r", encoding="utf-8")
         lines = file.readlines()
