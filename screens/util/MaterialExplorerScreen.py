@@ -13,24 +13,10 @@ class MaterialExplorer(BaseScreen):
         headerFont = self.assets.HEADER_FONT
         btnFont = self.assets.BTN_FONT
 
-        # Init page bar
-        page_bar = QtWidgets.QProgressBar(self)
-        page_bar.setObjectName("page_bar")
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(page_bar.sizePolicy().hasHeightForWidth())
-        page_bar.setSizePolicy(sizePolicy)
-        page_bar.setMinimumSize(QtCore.QSize(0, 4))
-        page_bar.setProperty("value", 0)
-        page_bar.setTextVisible(False)
-        self.page_bar = page_bar
-        layout.addWidget(self.page_bar)  # Adding "page bar" in to layout
-
         # Init header
         header = QtWidgets.QLabel(self)
         header.setObjectName("header")
-        header.setMinimumSize(QtCore.QSize(0, 60))
+        header.setMinimumSize(QtCore.QSize(0, 35))
         header.setFont(headerFont)
         self.header = header
         layout.addWidget(self.header)
@@ -57,7 +43,7 @@ class MaterialExplorer(BaseScreen):
         functionalLayout.addStretch(1)
         functionalLayout.addWidget(self.btnBack)  # Adding "continue" button in to layout
         functionalLayout.addSpacing(100)
-        functionalLayout.addWidget(self.btnUnknown)  # Adding "create" button in to layout
+        functionalLayout.addWidget(self.btnUnknown)  # Adding "unknown" button in to layout
         functionalLayout.addStretch(1)
         layout.addLayout(functionalLayout)  # Adding functional layout in to contentLayout
 

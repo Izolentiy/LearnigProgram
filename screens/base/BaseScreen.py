@@ -57,7 +57,7 @@ class BaseScreen(QtWidgets.QWidget):
         # Init header
         header = QtWidgets.QLabel(self)
         header.setObjectName("header")
-        header.setMinimumSize(QtCore.QSize(0, 60))
+        header.setMinimumSize(QtCore.QSize(0, 35))
         header.setFont(headerFont)
         self.header = header
         layout.addWidget(self.header)\
