@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QTableWidget
 
 import Constants
-from DataProccesor import DataProcessor
+from DataProcessor import DataProcessor
 from screens.create import ChooseSubjectScreen, LifeFactorsScreen, YourFullJourneyScreen, ChooseMaterialScreen, \
     IndicateLevelScreen, YourScheduleScreen, CongratulationsScreen
 from screens.base import StartScreen, OutputTypeScreen
@@ -17,7 +17,12 @@ style = os.path.join(os.path.dirname(__file__), 'screens/base/style.css')
 
 class ScreenController(QMainWindow):
 
-    # Constructor
+    """ Класс контроллер экранов наследует класс QMainWindow [по-русски "главное окно"]
+    в нём происходят основные операции связанные с центральными виджетами "экранами",
+    а также вспомогательными объектами (Обратчик данных, Активы)
+    """
+
+    # Конструктор
     def __init__(self):
 
         # Init screen operator (main window)
@@ -55,15 +60,15 @@ class ScreenController(QMainWindow):
         # Создаем список экранов для каждого режима окна и индексы к ним
         self.start_screen = [self.startScreen, self.fileTypeScreen]
         self.start_scr_index = 0
-        # "create-schedule" screens
+        # Экраны для режима "Создание плана"
         self.create_screen = [self.chooseSubjectScreen, self.indicateLevelScreen, self.chooseMaterialScreen,
                               self.lifeFactorScreen, self.yourScheduleScreen, self.yourFullJourneyScreen,
                               self.congratulationsScreen]
         self.create_scr_index = 0
-        # "learn variables" screens
+        # Экраны для режима "Переменные обучения"
         self.vars_screen = [self.abilitiesScreen, self.environmentScreen]
         self.vars_scr_index = 0
-        # Util screens
+        # Вспомогатльные экраны (настройки, обозреватель экранов, "Морган Фриман")
         self.util_screen = [self.materialExplorerScreen, self.informationScreen, self.settingsScreen]
         self.util_scr_index = 0
         self.util_showed = False
@@ -92,7 +97,10 @@ class ScreenController(QMainWindow):
         screens[curr_scr_index].page_bar.setValue(curr_scr_index + 1)
         self.clueless = None
 
-    # Методы для работы с виджетами
+    """
+    Методы для работы с виджетами
+    """
+    # Метод для манипулирования центральным видзжетом
     def set_screen(self):
         try:
             # Если режим окна начальный, то будет выполняться этот блок
@@ -143,10 +151,10 @@ class ScreenController(QMainWindow):
 
             # Если режим окна "определение переменных обучения", то будет выполняться этот блок
             elif self.operate_mode == Constants.LEARN_VARIABLES_MODE:
-                # Setting up central widget
+                # Установка центрального виджета
                 self.vars_screen[self.vars_scr_index].setupUi(self, self.assets)
                 self.update_page_bar(self.vars_screen, self.vars_scr_index)
-                # Connect buttons
+                # Поключение кнопок к обработчку кнопок
                 self.vars_screen[self.vars_scr_index].btnNext.clicked.connect(self.button_processor)
                 self.vars_screen[self.vars_scr_index].btnBack.clicked.connect(self.button_processor)
 
@@ -167,6 +175,7 @@ class ScreenController(QMainWindow):
             stack = traceback.extract_stack()
             print('Что-то пошло не так в методе: {}'.format(stack[-1][2]))
 
+    # Обработчик кнопок
     def button_processor(self):
         if self.sender().objectName() == "btnCreate":
             self.start_scr_index += 1
@@ -176,7 +185,6 @@ class ScreenController(QMainWindow):
                 self.dataProcessor.set_data(self.create_screen[self.create_scr_index])
                 self.create_scr_index += 1
             elif self.operate_mode == Constants.LEARN_VARIABLES_MODE:
-                # self.dataProcessor.set_data(self.create_screen[self.create_scr_index])
                 self.vars_scr_index += 1
             self.set_screen()
 
@@ -205,17 +213,15 @@ class ScreenController(QMainWindow):
             self.operate_mode = Constants.CREATE_SCHEDULE_MODE
             self.set_screen()
         elif self.sender().objectName() == "btnVars":
-            print('btnVars clicked')
             self.operate_mode = Constants.LEARN_VARIABLES_MODE
             self.set_screen()
 
         elif (self.sender().objectName() == "btnBooks" or
               self.sender().objectName() == "btnLectures" or
               self.sender().objectName() == "btnWebRes"):
-            self.show_material_explorer()
             self.util_showed = True
             self.operate_mode = Constants.SHOW_UTIL_MODE
-            return
+            self.set_screen()
 
         elif self.sender().objectName() == "btnFree":
             if self.sender().isChecked():
@@ -250,7 +256,6 @@ class ScreenController(QMainWindow):
                         not self.lifeFactorScreen.btnStudy.isChecked()):
                     print('selection mode: no selection')
                     self.lifeFactorScreen.calendar.month_panel.setSelectionMode(QTableWidget.NoSelection)
-            # self.lifeFactorScreen.btnStudy.setChecked(True)
 
         elif self.sender().objectName() == "titles_list":
             curr_name = self.materialExplorerScreen.titles_list.currentItem().text()
@@ -265,18 +270,10 @@ class ScreenController(QMainWindow):
             description.scroll(0, 0)
             return
 
-    def show_material_explorer(self):
-        button = self.sender()
-        print('hello')
-        self.materialExplorerScreen.setupUi(self, self.assets)
-        print('saldkfjal;skdf')
-        self.materialExplorerScreen.header.setText(button.text())  # Setting up window content
-        self.dataProcessor.get_data(self.materialExplorerScreen)  # Loading screen data
-        # Connect buttons
-        self.materialExplorerScreen.btnBack.clicked.connect(self.button_processor)
-        self.materialExplorerScreen.titles_list.clicked.connect(self.button_processor)
-
-    # Обработчики сигналов по типу нажатие на клавишу, но они не обязательны, просто щупал их
+    """
+    Обработчики сигналов по типу нажатие на клавишу, но они не обязательны, просто хотел
+    попробовать добавить функционал управления с клавиатруы
+    """
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.close()
