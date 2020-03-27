@@ -2,112 +2,113 @@
     There is defined style for base screens
 */
 QWidget {
-    background-color: #2156AD;
+    background-color: #2A2A2A;
     color: #E5E5E5;
-    font-family: 'consolas';
+    font-family: 'century gothic';
 }
 QAbstractItemView {
     outline: 0;
 }
 QLineEdit {
-    border: 2px solid #154797;
+    border: 2px solid #212121;
+    background-color: #212121;
 }
 QListView {
-    border: 2px solid #154797;
-    alternate-background-color: #1E50A1;
+    border: 2px solid #212121;
+    alternate-background-color: #303030;
     color: #E5E5E5;
 }
 QListWidget:item:hover {
-    background-color: #154797;
+    background-color: #212121;
 }
 QTextEdit {
-    border: 2px solid #154797;
+    border: 2px solid #212121;
     /* background-color: #3278FF; */
     color: #E5E5E5;
 }
 QListView::item:selected:active,QTableView::item:selected:active {
     background-color: transparent;
-    color: #0a0a0a;
+    color: #848484;
 }QListView::item:selected:active:hover,QTableView::item:selected:active:hover {
-    background-color: #154797;
-    color: #0a0a0a;
+    background-color: #212121;
+    color: #848484;
 }
 QListView::item:selected:!active,QTableView::item:selected:!active {
     background-color: transparent;
-    color: #0a0a0a;
+    color: #848484;
 }QListView::item:selected:!active:hover,QTableView::item:selected:!active:hover {
     
-    background-color: #154797;
-    color: #0a0a0a;
+    background-color: #212121;
+    color: #848484;
 }
 QPushButton {
-    border: 2px solid #154797;
+    border: 2px solid #212121;
     border-radius: 30px;
     color: #E5E5E5;
     outline: 0;
 }
 QPushButton:hover {
     border: none;
-    background-color: #154797;
+    background-color: #212121;
     color: #E5E5E5;
 }
 QPushButton:pressed {
-    background-color: #124180;
+    background-color: #1A1A1A;
     color: #F0F0F0;
 }
 QPushButton:checked{
     border: none;
-    background-color: #154797;
+    background-color: #212121;
     color: #F0F0F0;
 }
 QPushButton:checked:hover {
     border: none;
-    background-color: #1964dc;
+    background-color: #1A1A1A;
     color: #FFFFFF;
 }
 
 /* Дальше идёт дикий говнокод */
-QComboBox{  border: 2px solid #154797;  }
-QComboBox:editable {  background: #154797;  }
-QComboBox:!editable, QComboBox::drop-down:editable {  background: #154797;  }
-QComboBox:!editable:on, QComboBox::drop-down:editable:on {  background: #154797;  }
+QComboBox{  border: 2px solid #212121;  }
+QComboBox:editable {  background: #212121;  }
+QComboBox:!editable, QComboBox::drop-down:editable {  background: #212121;  }
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {  background: #212121;  }
 QComboBox:down-arrow {
     image: url(./icons/angle-down-solid);
     width: 16px;
     height: 16px;
 }
 QComboBox::drop-down {
-    border: 2px solid #124180;
+    border: 2px solid #1A1A1A;
     width: 30px;
 }
 #jobTime_list::drop-down {
-    border: 1px solid #124180;
+    border: 1px solid #1A1A1A;
     width: 15px;
-}#sleepTime_list::drop-down {
-    border: 1px solid #124180;
+}#sleep_field::drop-down {
+    border: 1px solid #1A1A1A;
     width: 15px;
-}#studyTime_list::drop-down {
-    border: 1px solid #124180;
+}#watch_field::drop-down {
+    border: 1px solid #1A1A1A;
     width: 15px;
 }#sort_list::drop-down {
-    border: 1px solid #124180;
+    border: 1px solid #1A1A1A;
     width: 15px;
 }#repeatTime_list::drop-down {
-    border: 1px solid #124180;
+    border: 1px solid #1A1A1A;
     width: 15px;
 }#learnTime_list::drop-down {
-    border: 1px solid #124180;
+    border: 1px solid #1A1A1A;
     width: 15px;
 }
 #jobTime_list::down-arrow {
     image: url(./icons/angle-down-solid);
     width: 12px;
     height: 12px;
-}#sleepTime_list::down-arrow {
+}#sleep_field::down-arrow {
     image: url(./icons/angle-down-solid);
     width: 12px;
     height: 12px;
-}#studyTime_list::down-arrow {
+}#watch_field::down-arrow {
     image: url(./icons/angle-down-solid);
     width: 12px;
     height: 12px;
@@ -126,8 +127,8 @@ QComboBox::drop-down {
 }
 
 QComboBox QAbstractItemView {
-    border: 2px solid #154797;
-    selection-background-color: #154797;
+    border: 2px solid #212121;
+    selection-background-color: #212121;
     outline: 0;
 }
 
@@ -137,4 +138,4 @@ QProgressBar {
     height: 4px;
     border: none;
 }
-QProgressBar:chunk {  background-color: #124180;  }
+QProgressBar:chunk {  background-color: #1A1A1A;  }

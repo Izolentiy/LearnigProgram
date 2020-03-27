@@ -2,7 +2,7 @@
     There is defined style for calendar widget
 */
 QWidget {
-    background-color: #2156AD;
+    background-color: #2A2A2A;
     color: #E5E5E5;
     font-family: 'consolas';
     outline: 0;
@@ -15,36 +15,36 @@ QTableView
     outline: 0;
 }
 QTableWidget QAbstractItemView {
-    border-left: 1px solid #124180
+    border-left: 1px solid #212121
 }
 
 QTableView::item {
-    border-left: 1px solid #124180;
+    border-left: 1px solid #212121;
 }
 QTableView::item:selected:active {
-    background-color: #1E69FF;
-    color: #252525;
+    background-color: #1C1C1C;
+    color: #f0f0f0;
 }QTableView::item:selected:active:hover {
-    background-color: #154797;
-    color: #252525;
+    background-color: #212121;
+    color: #f0f0f0;
 }
 
 QTableView::item:selected:!active {
-    background-color: #1E69FF;
-    color: #252525;
+    background-color: #1C1C1C;
+    color: #f0f0f0;
 }QTableView::item:selected:!active:hover {
-    background-color: #154797;
-    color: #252525;
+    background-color: #212121;
+    color: #f0f0f0;
 }
 
 QPushButton {
     border: none;
     border-radius: 0px;
-    background-color: #154797;
+    background-color: #212121;
     color: #E5E5E5;
 }
 QPushButton:hover {
     border: none;
-    background-color: #124180;
+    background-color: #212121;
     color: #E5E5E5;
 }
