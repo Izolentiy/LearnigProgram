@@ -2,7 +2,7 @@ import os
 import traceback
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QTableWidget
+from PyQt5.QtWidgets import QMainWindow, QTableWidget, QPushButton
 
 import Constants
 from DataProcessor import DataProcessor
@@ -29,7 +29,7 @@ class ScreenController(QMainWindow):
         super().__init__()
 
         # Настраиваем главное окно
-        self.setMinimumSize(500, 600)
+        # self.setMinimumSize(500, 600)
         self.resize(1100, 650)
         self.setWindowTitle("Learning program")
         # Определяем вспомогательные пайтон скрипты
@@ -61,8 +61,12 @@ class ScreenController(QMainWindow):
         self.start_screen = [self.startScreen, self.fileTypeScreen]
         self.start_scr_index = 0
         # Экраны для режима "Создание плана"
-        self.create_screen = [self.chooseSubjectScreen, self.indicateLevelScreen, self.chooseMaterialScreen,
-                              self.lifeFactorScreen, self.yourScheduleScreen, self.yourFullJourneyScreen,
+        self.create_screen = [self.chooseSubjectScreen,
+                              self.indicateLevelScreen,
+                              self.chooseMaterialScreen,
+                              self.lifeFactorScreen,
+                              self.yourScheduleScreen,
+                              self.yourFullJourneyScreen,
                               self.congratulationsScreen]
         self.create_scr_index = 0
         # Экраны для режима "Переменные обучения"
@@ -73,9 +77,17 @@ class ScreenController(QMainWindow):
         self.util_scr_index = 0
         self.util_showed = False
 
+        # Словарь содержащий все списки с экранами и определяющий для них ключи
+        self.screens = {
+            Constants.START_MODE: self.start_screen,
+            Constants.LEARN_VARIABLES_MODE: self.vars_screen,
+            Constants.CREATE_SCHEDULE_MODE: self.create_screen,
+            Constants.SHOW_UTIL_MODE: self.util_screen
+                        }
+
         # Вспомогательные флаги, для настройки отображения окна
-        flags = self.windowFlags() | Qt.WindowStaysOnTopHint
-        self.setWindowFlags(flags)
+        # flags = self.windowFlags() | Qt.WindowStaysOnTopHint
+        # self.setWindowFlags(flags)
         # Инициализация стилей
         self.calendarStyleOn = False
         self.update_style()
@@ -92,197 +104,251 @@ class ScreenController(QMainWindow):
         except FileNotFoundError:
             print('style not found')
 
-    def update_page_bar(self, screens, curr_scr_index):
+    @classmethod
+    def update_page_bar(cls, screens, curr_scr_index):
         screens[curr_scr_index].page_bar.setRange(0, len(screens))
         screens[curr_scr_index].page_bar.setValue(curr_scr_index + 1)
-        self.clueless = None
 
     """
-    Методы для работы с виджетами
+    --------||-------- Методы для работы с виджетами --------||--------
     """
     # Метод для манипулирования центральным видзжетом
     def set_screen(self):
         try:
+            # Укорачиваниме имен переменных
+            index = None
+            mode = self.operate_mode
+            assets = self.assets
+
+            # Определение индекса
+            if mode == Constants.START_MODE:
+                index = self.start_scr_index
+            elif mode == Constants.LEARN_VARIABLES_MODE:
+                index = self.vars_scr_index
+            elif mode == Constants.CREATE_SCHEDULE_MODE:
+                index = self.create_scr_index
+            elif mode == Constants.SHOW_UTIL_MODE:
+                index = self.util_scr_index
+
+            # Установка центрального виджета
+            screen = self.screens[mode][index]
+            screen.setupUi(self, assets)
+
             # Если режим окна начальный, то будет выполняться этот блок
-            if self.operate_mode == Constants.START_MODE:
-                # Установка центрального виджета
-                self.start_screen[self.start_scr_index].setupUi(self, self.assets)
-                if isinstance(self.start_screen[self.start_scr_index], StartScreen.StartScreen):
-                    self.startScreen.btnCreate.clicked.connect(self.button_processor)
-                elif isinstance(self.start_screen[self.start_scr_index], OutputTypeScreen.CreateType):
-                    self.fileTypeScreen.btnBack.clicked.connect(self.button_processor)
-                    self.fileTypeScreen.btnSchedule.clicked.connect(self.button_processor)
-                    self.fileTypeScreen.btnVars.clicked.connect(self.button_processor)
-                else:
-                    print('something went wrong')
+            if mode == Constants.START_MODE:
+                if isinstance(screen, StartScreen.StartScreen):
+                    screen.btnCreate.clicked.connect(self.button_processor)
+                elif isinstance(screen, OutputTypeScreen.CreateType):
+                    screen.btnBack.clicked.connect(self.button_processor)
+                    screen.btnSchedule.clicked.connect(self.button_processor)
+                    screen.btnVars.clicked.connect(self.button_processor)
 
             # Если режим окна "создание учебного плана", то будет выполняться этот блок
-            elif self.operate_mode == Constants.CREATE_SCHEDULE_MODE:
-                # Установка центрального виджета
-                self.create_screen[self.create_scr_index].setupUi(self, self.assets)
-                self.update_page_bar(self.create_screen, self.create_scr_index)
+            elif mode == Constants.CREATE_SCHEDULE_MODE:
+                self.update_page_bar(self.screens[mode], index)
                 # Соединение кнопок
-                self.create_screen[self.create_scr_index].btnNext.clicked.connect(self.button_processor)
-                self.create_screen[self.create_scr_index].btnBack.clicked.connect(self.button_processor)
+                screen.btnNext.clicked.connect(self.button_processor)
+                screen.btnBack.clicked.connect(self.button_processor)
                 # Загрузка данных для центрального виджета
-                self.dataProcessor.get_data(self.create_screen[self.create_scr_index])
-                if self.operate_mode == 23423:
+                self.dataProcessor.get_data(screen)
+                if self.operate_mode == 42:
                     pass
                 # Настройка виджета для выбора материалов
-                elif isinstance(self.create_screen[self.create_scr_index], ChooseMaterialScreen.MaterialsScreen):
+                elif isinstance(screen, ChooseMaterialScreen.MaterialsScreen):
                     # Connect buttons
-                    self.chooseMaterialScreen.btnBooks.clicked.connect(self.button_processor)
-                    self.chooseMaterialScreen.btnLectures.clicked.connect(self.button_processor)
-                    self.chooseMaterialScreen.btnWebRes.clicked.connect(self.button_processor)
+                    screen.btnBooks.clicked.connect(self.button_processor)
+                    screen.btnLectures.clicked.connect(self.button_processor)
+                    screen.btnWebRes.clicked.connect(self.button_processor)
                 # Life factors screen
-                elif isinstance(self.create_screen[self.create_scr_index], LifeFactorsScreen.Ui_main_window):
+                elif isinstance(screen, LifeFactorsScreen.Ui_main_window):
                     # Setting up calendar style
                     if self.calendarStyleOn:
-                        self.lifeFactorScreen.calendar.set_style()
+                        screen.calendar.set_style()
                     # Connect buttons
-                    self.lifeFactorScreen.btnFree.toggled.connect(self.button_processor)
-                    self.lifeFactorScreen.btnJob.toggled.connect(self.button_processor)
-                    self.lifeFactorScreen.btnStudy.toggled.connect(self.button_processor)
+                    screen.btnFree.toggled.connect(self.button_processor)
+                    screen.btnJob.toggled.connect(self.button_processor)
+                    screen.btnStudy.toggled.connect(self.button_processor)
                     # Connect to calendar
-                    self.lifeFactorScreen.calendar.connect_external(self.lifeFactorScreen)
-                # Other statements
+                    screen.calendar.connect_external(screen)
+
+            # Если режим окна "определение переменных обучения", то будет выполняться этот блок
+            elif mode == Constants.LEARN_VARIABLES_MODE:
+                self.update_page_bar(self.screens[mode], index)
+                # Поключение кнопок к обработчку кнопок
+                screen.btnNext.clicked.connect(self.button_processor)
+                screen.btnBack.clicked.connect(self.button_processor)
+                # Настройка виджета для выбора материалов
+                if mode == 42:
+                    pass
+                elif isinstance(screen, LearnAbilityScreen.AbilitiesScreen):
+                    if self.calendarStyleOn:
+                        screen.calendar.set_style()
+                    # Connect buttons
+                    screen.btnFree.toggled.connect(self.button_processor)
+                    screen.btnJob.toggled.connect(self.button_processor)
+                    screen.btnStudy.toggled.connect(self.button_processor)
+                    # Соединение с календарём
+                    screen.calendar.connect_external(screen)
+                # Настройка виджета для выбора материалов
+                elif isinstance(screen, ChooseMaterialScreen.MaterialsScreen):
+                    # Connect buttons
+                    screen.btnBooks.clicked.connect(self.button_processor)
+                    screen.btnLectures.clicked.connect(self.button_processor)
+                    screen.btnWebRes.clicked.connect(self.button_processor)
+
+            # Если режим окна "отображение вспомогательных окон", то будет выполняться этот блок
+            elif mode == Constants.SHOW_UTIL_MODE:
+                button = self.sender()
+                screen.header.setText(button.text())  # Setting up window content
+                self.dataProcessor.get_data(screen)  # Loading screen data
+                # Connect buttons
+                screen.btnBack.clicked.connect(self.button_processor)
+                screen.titles_list.clicked.connect(self.button_processor)
+
+        except (RuntimeError, NameError, AttributeError, IndexError):
+            stack = traceback.extract_stack()
+            print('Что-то пошло не так в методе: {}'.format(stack[-1][2]))  # [-1][2] Это просто магические числа
+
+    # Обработчик нажатий
+    def button_processor(self):
+        try:
+            # Укорачиваниме имен переменных
+            cur_index = None  # Старое значение индекса
+            index = None  # Будет принимать изменения индекса
+            cur_mode = self.operate_mode  # Старое значение режима
+            mode = self.operate_mode  # Режим экрана
+            screen = self.centralWidget().screen  # Текущий экран
+            element = self.sender()  # Элемент на который нажали
+            element_id = element.objectName()  # Имя этого элемента
+            # Определение индекса
+            if mode == Constants.START_MODE:
+                index = self.start_scr_index
+                cur_index = self.start_scr_index
+            elif mode == Constants.LEARN_VARIABLES_MODE:
+                index = self.vars_scr_index
+                cur_index = self.vars_scr_index
+            elif mode == Constants.CREATE_SCHEDULE_MODE:
+                index = self.create_scr_index
+                cur_index = self.create_scr_index
+            elif mode == Constants.SHOW_UTIL_MODE:
+                index = self.util_scr_index
+                cur_index = self.util_scr_index
+
+            # Обработка нажатий
+            if element_id == "btnCreate":
+                index += 1
+            elif element_id == "btnNext":
+                if mode == Constants.CREATE_SCHEDULE_MODE:
+                    self.dataProcessor.set_data(screen)
+                    index += 1
+                elif mode == Constants.LEARN_VARIABLES_MODE:
+                    index += 1
+                    self.dataProcessor.save_data('data/variables/test.txt')
+
+            elif element_id == "btnBack":
+                self.dataProcessor.set_data(screen)
+                if mode == Constants.START_MODE:
+                    index -= 1
+                elif mode == Constants.CREATE_SCHEDULE_MODE:
+                    if index == 0:
+                        mode = Constants.START_MODE
+                    else:
+                        index -= 1
+                elif mode == Constants.SHOW_UTIL_MODE:
+                    mode = Constants.CREATE_SCHEDULE_MODE
+                    if self.util_showed:
+                        self.util_showed = False
+                elif mode == Constants.LEARN_VARIABLES_MODE:
+                    if index == 0:
+                        mode = Constants.START_MODE
+                    else:
+                        index -= 1
                 else:
                     pass
 
-            # Если режим окна "определение переменных обучения", то будет выполняться этот блок
-            elif self.operate_mode == Constants.LEARN_VARIABLES_MODE:
-                # Установка центрального виджета
-                self.vars_screen[self.vars_scr_index].setupUi(self, self.assets)
-                self.update_page_bar(self.vars_screen, self.vars_scr_index)
-                # Поключение кнопок к обработчку кнопок
-                self.vars_screen[self.vars_scr_index].btnNext.clicked.connect(self.button_processor)
-                self.vars_screen[self.vars_scr_index].btnBack.clicked.connect(self.button_processor)
+            elif element_id == "btnSchedule":
+                mode = Constants.CREATE_SCHEDULE_MODE
+            elif element_id == "btnVars":
+                mode = Constants.LEARN_VARIABLES_MODE
+            elif (element_id == "btnBooks" or
+                  element_id == "btnLectures" or
+                  element_id == "btnWebRes"):
+                self.util_showed = True
+                mode = Constants.SHOW_UTIL_MODE
+            if mode != cur_mode or index != cur_index:
+                # Обратное определение индекса
+                if cur_mode == Constants.START_MODE:
+                    self.start_scr_index = index
+                elif cur_mode == Constants.LEARN_VARIABLES_MODE:
+                    self.vars_scr_index = index
+                elif cur_mode == Constants.CREATE_SCHEDULE_MODE:
+                    self.create_scr_index = index
+                elif cur_mode == Constants.SHOW_UTIL_MODE:
+                    self.util_scr_index = index
+                self.operate_mode = mode  # Обратное определение режима
+                self.set_screen()
 
-            # Если режим окна "отображение вспомогательных окон", то будет выполняться этот блок
-            elif self.operate_mode == Constants.SHOW_UTIL_MODE:
-                button = self.sender()
-                self.util_screen[self.util_scr_index].setupUi(self, self.assets)
-                self.materialExplorerScreen.header.setText(button.text())  # Setting up window content
-                self.dataProcessor.get_data(self.materialExplorerScreen)  # Loading screen data
-                # Connect buttons
-                self.materialExplorerScreen.btnBack.clicked.connect(self.button_processor)
-                self.materialExplorerScreen.titles_list.clicked.connect(self.button_processor)
-                pass
+            if element_id == "btnFree":
+                if element.isChecked():
+                    screen.btnJob.setChecked(False)
+                    screen.btnStudy.setChecked(False)
+                    screen.calendar.month_panel.setSelectionMode(QTableWidget.MultiSelection)
+                else:
+                    if (not screen.btnJob.isChecked() and
+                            not screen.btnFree.isChecked() and
+                            not screen.btnStudy.isChecked()):
+                        screen.calendar.month_panel.setSelectionMode(QTableWidget.NoSelection)
+            elif element_id == "btnJob":
+                if element.isChecked():
+                    screen.btnFree.setChecked(False)
+                    screen.btnStudy.setChecked(False)
+                    screen.calendar.month_panel.setSelectionMode(QTableWidget.MultiSelection)
+                else:
+                    if (not screen.btnJob.isChecked() and
+                            not screen.btnFree.isChecked() and
+                            not screen.btnStudy.isChecked()):
+                        screen.calendar.month_panel.setSelectionMode(QTableWidget.NoSelection)
+            elif element_id == "btnStudy":
+                if element.isChecked():
+                    screen.btnJob.setChecked(False)
+                    screen.btnFree.setChecked(False)
+                    screen.calendar.month_panel.setSelectionMode(QTableWidget.MultiSelection)
+                else:
+                    if (not screen.btnJob.isChecked() and
+                            not screen.btnFree.isChecked() and
+                            not screen.btnStudy.isChecked()):
+                        screen.calendar.month_panel.setSelectionMode(QTableWidget.NoSelection)
 
-            else:
-                print('something went wrong')
-        except (RuntimeError, TypeError, NameError):
+            elif element_id == "titles_list":
+                curr_name = screen.titles_list.currentItem().text()
+                materials = self.dataProcessor.materials
+                description = screen.description
+                description.clear()
+                for material in materials:
+                    if material.properties['NAME'] == curr_name:
+                        for key in material.properties:
+                            description.append(key)
+                            description.append(material.properties[key] + '\n')
+                description.scroll(0, 0)
+                return
+        except (RuntimeError, NameError, AttributeError, IndexError):
             stack = traceback.extract_stack()
-            print('Что-то пошло не так в методе: {}'.format(stack[-1][2]))
-
-    # Обработчик кнопок
-    def button_processor(self):
-        if self.sender().objectName() == "btnCreate":
-            self.start_scr_index += 1
-            self.set_screen()
-        elif self.sender().objectName() == "btnNext":
-            if self.operate_mode == Constants.CREATE_SCHEDULE_MODE:
-                self.dataProcessor.set_data(self.create_screen[self.create_scr_index])
-                self.create_scr_index += 1
-            elif self.operate_mode == Constants.LEARN_VARIABLES_MODE:
-                self.vars_scr_index += 1
-            self.set_screen()
-
-        elif self.sender().objectName() == "btnBack":
-            if self.operate_mode == Constants.START_MODE:
-                self.start_scr_index -= 1
-            elif self.operate_mode == Constants.CREATE_SCHEDULE_MODE:
-                if self.create_scr_index == 0:
-                    self.operate_mode = Constants.START_MODE
-                else:
-                    self.create_scr_index -= 1
-            elif self.operate_mode == Constants.SHOW_UTIL_MODE:
-                self.operate_mode = Constants.CREATE_SCHEDULE_MODE
-                if self.util_showed:
-                    self.util_showed = False
-            elif self.operate_mode == Constants.LEARN_VARIABLES_MODE:
-                if self.vars_scr_index == 0:
-                    self.operate_mode = Constants.START_MODE
-                else:
-                    self.vars_scr_index -= 1
-            else:
-                pass
-            self.set_screen()
-
-        elif self.sender().objectName() == "btnSchedule":
-            self.operate_mode = Constants.CREATE_SCHEDULE_MODE
-            self.set_screen()
-        elif self.sender().objectName() == "btnVars":
-            self.operate_mode = Constants.LEARN_VARIABLES_MODE
-            self.set_screen()
-
-        elif (self.sender().objectName() == "btnBooks" or
-              self.sender().objectName() == "btnLectures" or
-              self.sender().objectName() == "btnWebRes"):
-            self.util_showed = True
-            self.operate_mode = Constants.SHOW_UTIL_MODE
-            self.set_screen()
-
-        elif self.sender().objectName() == "btnFree":
-            if self.sender().isChecked():
-                self.lifeFactorScreen.btnJob.setChecked(False)
-                self.lifeFactorScreen.btnStudy.setChecked(False)
-                self.lifeFactorScreen.calendar.month_panel.setSelectionMode(QTableWidget.MultiSelection)
-            else:
-                if (not self.lifeFactorScreen.btnJob.isChecked() and
-                        not self.lifeFactorScreen.btnFree.isChecked() and
-                        not self.lifeFactorScreen.btnStudy.isChecked()):
-                    print('selection mode: no selection')
-                    self.lifeFactorScreen.calendar.month_panel.setSelectionMode(QTableWidget.NoSelection)
-        elif self.sender().objectName() == "btnJob":
-            if self.sender().isChecked():
-                self.lifeFactorScreen.btnFree.setChecked(False)
-                self.lifeFactorScreen.btnStudy.setChecked(False)
-                self.lifeFactorScreen.calendar.month_panel.setSelectionMode(QTableWidget.MultiSelection)
-            else:
-                if (not self.lifeFactorScreen.btnJob.isChecked() and
-                        not self.lifeFactorScreen.btnFree.isChecked() and
-                        not self.lifeFactorScreen.btnStudy.isChecked()):
-                    print('selection mode: no selection')
-                    self.lifeFactorScreen.calendar.month_panel.setSelectionMode(QTableWidget.NoSelection)
-        elif self.sender().objectName() == "btnStudy":
-            if self.sender().isChecked():
-                self.lifeFactorScreen.btnJob.setChecked(False)
-                self.lifeFactorScreen.btnFree.setChecked(False)
-                self.lifeFactorScreen.calendar.month_panel.setSelectionMode(QTableWidget.MultiSelection)
-            else:
-                if (not self.lifeFactorScreen.btnJob.isChecked() and
-                        not self.lifeFactorScreen.btnFree.isChecked() and
-                        not self.lifeFactorScreen.btnStudy.isChecked()):
-                    print('selection mode: no selection')
-                    self.lifeFactorScreen.calendar.month_panel.setSelectionMode(QTableWidget.NoSelection)
-
-        elif self.sender().objectName() == "titles_list":
-            curr_name = self.materialExplorerScreen.titles_list.currentItem().text()
-            materials = self.dataProcessor.materials
-            description = self.materialExplorerScreen.description
-            description.clear()
-            for material in materials:
-                if material.properties['NAME'] == curr_name:
-                    for key in material.properties:
-                        description.append(key)
-                        description.append(material.properties[key] + '\n')
-            description.scroll(0, 0)
-            return
+            print('Что-то пошло не так в методе: {}'.format(stack[-1][2]))  # [-1][2] Это просто магические числа
 
     """
+    --------||--------
     Обработчики сигналов по типу нажатие на клавишу, но они не обязательны, просто хотел
     попробовать добавить функционал управления с клавиатруы
+    --------||--------
     """
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.close()
         if event.key() == Qt.Key_Right:
-            self.dataProcessor.set_data(self.create_screen[self.create_scr_index])
-            self.create_scr_index += 1
+            self.start_scr_index += 1
             self.set_screen()
         if event.key() == Qt.Key_Left:
-            self.create_scr_index -= 1
+            self.start_scr_index -= 1
             self.set_screen()
 
     def mousePressEvent(self, event):

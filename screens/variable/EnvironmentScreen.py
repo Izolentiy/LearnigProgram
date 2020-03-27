@@ -27,8 +27,13 @@ class EnvironmentScreen(BaseScreen):
         self.calendar = calendar
         layout.addWidget(self.tip)
         layout.addSpacing(20)
-        layout.addWidget(self.calendar)
-        layout.addSpacing(20)
+        wrap_layout = QtWidgets.QHBoxLayout()
+        wrap_layout.addWidget(self.calendar)
+        wrap_layout.addStretch(1)
+        # layout.addWidget(self.calendar)
+        layout.addLayout(wrap_layout)
+        layout.addStretch(1)
+        # layout.addSpacing(20)
 
     def translate_text(self, main_window):
         _translate = QtCore.QCoreApplication.translate
