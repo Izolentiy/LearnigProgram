@@ -7,10 +7,12 @@ class BaseScreen(QtWidgets.QWidget):
     # Здесь мы устанавливаем центральный виджет в главное окно и соединяем его с активами(ресурсами)
     def setupUi(self, main_window, assets):
         self.assets = assets
-        self.main_widget = QtWidgets.QWidget()
-        self.init_widget()
-        main_window.setCentralWidget(self.main_widget)
-        self.translate_text(main_window)
+        self.widget = QtWidgets.QWidget(self)
+        self.widget.screen = self  # Костыль из-за, я полагаю, бага
+        if self.widget.layout() is None:
+            self.init_widget()
+            self.translate_text(main_window)
+        main_window.setCentralWidget(self.widget)
 
     # There we are create and configure central widget
     # Здесь мы создаем и настравиваем центральный виджет
@@ -19,16 +21,16 @@ class BaseScreen(QtWidgets.QWidget):
         mainLayout.setContentsMargins(0, 0, 0, 0)
         mainLayout.setSpacing(0)
         activeLayout = QtWidgets.QHBoxLayout()
-        mainLayout.addSpacing(20)  # Top space
-        activeLayout.addSpacing(20)  # Left space
+        mainLayout.addSpacing(5)  # Top space
+        activeLayout.addSpacing(15)  # Left space
 
         contentLayout = QtWidgets.QVBoxLayout()  # Create content layout
         self.init_base(contentLayout)  # Filling up content layout
         activeLayout.addLayout(contentLayout)
-        activeLayout.addSpacing(20)  # Right space
+        activeLayout.addSpacing(15)  # Right space
         mainLayout.addLayout(activeLayout)
-        mainLayout.addSpacing(20)  # Bottom space
-        self.main_widget.setLayout(mainLayout)
+        mainLayout.addSpacing(15)  # Bottom space
+        self.widget.setLayout(mainLayout)
 
     # There inited base components of each inherited screen(page bar, header, navigation buttons)
     # Здесь инициализируем базовые компоненты для каждого дочернего окна(виджета) [прогрес бар, загаловок, и кнопки снизу]
@@ -39,25 +41,23 @@ class BaseScreen(QtWidgets.QWidget):
         backIcon = self.assets.BACK_ICON
         # Fonts
         headerFont = self.assets.HEADER_FONT
+        # Size policies
+        pageBarPolicy = self.assets.PAGE_BAR_POLICY
 
         # Init page bar
-        page_bar = QtWidgets.QProgressBar(self)
+        page_bar = QtWidgets.QProgressBar()
         page_bar.setObjectName("page_bar")
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(page_bar.sizePolicy().hasHeightForWidth())
-        page_bar.setSizePolicy(sizePolicy)
-        page_bar.setMinimumSize(QtCore.QSize(0, 4))
+        page_bar.setSizePolicy(pageBarPolicy)
+        page_bar.setMinimumSize(QtCore.QSize(0, 10))
         page_bar.setProperty("value", 0)
         page_bar.setTextVisible(False)
         self.page_bar = page_bar
         layout.addWidget(self.page_bar)  # Adding "page bar" in to layout
 
         # Init header
-        header = QtWidgets.QLabel(self)
+        header = QtWidgets.QLabel()
         header.setObjectName("header")
-        header.setMinimumSize(QtCore.QSize(0, 35))
+        header.setMinimumSize(QtCore.QSize(0, 30))
         header.setFont(headerFont)
         self.header = header
         layout.addWidget(self.header)\

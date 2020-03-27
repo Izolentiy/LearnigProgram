@@ -1,4 +1,6 @@
 # There will be constant values for this program
+import os
+
 from PyQt5 import QtGui, QtWidgets
 
 # """ Train types, where 1 it's time for learning. (READ/WATCH, PRACTICE, REPEAT) """
@@ -23,6 +25,9 @@ SHOW_UTIL_MODE = 3
 class Assets:
     
     def __init__(self):
+        # Paths
+        varsPath = os.path.join(os.path.dirname(__file__), 'data/variables')
+
         # Icons
         nextIcon = QtGui.QIcon()
         nextIcon.addPixmap(QtGui.QPixmap("icons/angle-right-solid.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -59,6 +64,8 @@ class Assets:
         btnPolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         btnPolicy.setHorizontalStretch(1)
         # fieldPolicy.setHorizontalStretch(1)
+
+        self.VARS_PATH = varsPath
 
         self.NEXT_ICON = nextIcon
         self.BACK_ICON = backIcon

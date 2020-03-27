@@ -6,7 +6,7 @@ from screens.base.BaseScreen import BaseScreen
 class StartScreen(BaseScreen):
 
     def init_widget(self):
-        mainLayout = QtWidgets.QVBoxLayout(self.main_widget)
+        mainLayout = QtWidgets.QVBoxLayout()
         mainLayout.setContentsMargins(0, 0, 0, 0)
         mainLayout.setSpacing(0)
         activeLayout = QtWidgets.QHBoxLayout()
@@ -21,7 +21,7 @@ class StartScreen(BaseScreen):
         mainLayout.addLayout(activeLayout)
         mainLayout.addSpacing(20)  # Bottom space
         mainLayout.addStretch(1)
-        self.main_widget.setLayout(mainLayout)
+        self.widget.setLayout(mainLayout)
 
     def init_content(self, layout):
         # Icons
@@ -45,7 +45,6 @@ class StartScreen(BaseScreen):
         programName = QtWidgets.QLabel()
         # programName.resize(0, 150)
         programName.setObjectName("name")
-        programName.setText("LEARNING PROGRAM")
         programName.setFont(nameFont)
         programName.setAlignment(QtCore.Qt.AlignCenter)
         self.programName = programName
@@ -55,7 +54,6 @@ class StartScreen(BaseScreen):
         # Creating functional layout with "create" and "continue" buttons
         functionalLayout = QtWidgets.QHBoxLayout()
         btnContinue = QtWidgets.QPushButton()
-        btnContinue.setText("...")
         btnContinue.setMinimumSize(60, 60)
         btnContinue.setMaximumSize(60, 60)
         btnContinue.setObjectName("btnContinue")
@@ -73,3 +71,9 @@ class StartScreen(BaseScreen):
         functionalLayout.addWidget(self.btnCreate)  # Adding "create" button in to layout
 
         layout.addLayout(functionalLayout)  # Adding functional layout in to contentLayout
+
+    def translate_text(self, main_window):
+        _translate = QtCore.QCoreApplication.translate
+        main_window.setWindowTitle(_translate("main_window", "Learning program"))
+        self.programName.setText(_translate("main_window", "LEARNING PROGRAM"))
+        self.btnContinue.setText(_translate("main_window", "..."))

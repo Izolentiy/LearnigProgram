@@ -1,7 +1,6 @@
 import os.path
 
 import Material
-import ProgramLogic
 from screens.create import ChooseSubjectScreen, LifeFactorsScreen, ChooseMaterialScreen, IndicateLevelScreen
 from screens.util import MaterialExplorerScreen
 
@@ -28,8 +27,6 @@ class DataProcessor:
         self.subjects_list = os.path.join(os.path.dirname(__file__), 'data/SubjectsList.txt')
         self.levels_list = os.path.join(os.path.dirname(__file__), 'data/LevelsList.txt')
         self.materials_list = os.path.join(os.path.dirname(__file__), 'data/MaterialsList.txt')
-
-        self.programLogic = ProgramLogic.ProgramLogic()
 
         # Declaration logic variables
         self.time_bounds = None  # Current date - Finish date (deadline)
@@ -140,9 +137,20 @@ class DataProcessor:
                 screen.studyTime_list.addItem(str(hour))  # Fill study time list
                 screen.jobTime_list.addItem(str(hour))  # Fill job time list
 
+    # Уставновка переменных обучения
+    def set_vars(self, path):
+        print('show schedules')
+        # file = open(path, "r", encoding="utf-8")
+        #
+        # file.close()
+        pass
+
     # Сохранение данных в файл
     def save_data(self, path=None):
         if path is not None:
+            file = open(path, "w", encoding="utf-8")
+            file.write(self.subject)
+            file.close()
             pass
 
     # Инициализация материалов обучения из файла

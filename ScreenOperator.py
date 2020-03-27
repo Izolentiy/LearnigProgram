@@ -29,7 +29,7 @@ class ScreenController(QMainWindow):
         super().__init__()
 
         # Настраиваем главное окно
-        # self.setMinimumSize(500, 600)
+        self.setMinimumSize(500, 600)
         self.resize(1100, 650)
         self.setWindowTitle("Learning program")
         # Определяем вспомогательные пайтон скрипты
@@ -217,6 +217,8 @@ class ScreenController(QMainWindow):
             index = None  # Будет принимать изменения индекса
             cur_mode = self.operate_mode  # Старое значение режима
             mode = self.operate_mode  # Режим экрана
+
+            assets = self.assets
             screen = self.centralWidget().screen  # Текущий экран
             element = self.sender()  # Элемент на который нажали
             element_id = element.objectName()  # Имя этого элемента
@@ -243,7 +245,6 @@ class ScreenController(QMainWindow):
                     index += 1
                 elif mode == Constants.LEARN_VARIABLES_MODE:
                     index += 1
-                    self.dataProcessor.save_data('data/variables/test.txt')
 
             elif element_id == "btnBack":
                 self.dataProcessor.set_data(screen)
@@ -267,7 +268,13 @@ class ScreenController(QMainWindow):
                     pass
 
             elif element_id == "btnSchedule":
-                mode = Constants.CREATE_SCHEDULE_MODE
+                if os.listdir(assets.VARS_PATH):
+                    mode = Constants.CREATE_SCHEDULE_MODE
+                    print('show schedules')
+                    self.dataProcessor.set_vars(assets.VARS_PATH)
+                    print('show schedules')
+                else:
+                    print(assets.VARS_PATH, 'is not empty')
             elif element_id == "btnVars":
                 mode = Constants.LEARN_VARIABLES_MODE
             elif (element_id == "btnBooks" or
