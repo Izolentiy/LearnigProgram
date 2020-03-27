@@ -38,11 +38,11 @@ class Assets:
         btnFont = QtGui.QFont()
         btnFont.setPointSize(12)
         headerFont = QtGui.QFont()
-        headerFont.setPointSize(16)
+        headerFont.setPointSize(12)
         tipFont = QtGui.QFont()
-        tipFont.setPointSize(10)
+        tipFont.setPointSize(8)
         listFont = QtGui.QFont()
-        listFont.setPointSize(10)
+        listFont.setPointSize(8)
         nameFont = QtGui.QFont()
         nameFont.setPointSize(25)
         # Size Policies
@@ -55,6 +55,9 @@ class Assets:
         calendarPolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         calendarPolicy.setVerticalStretch(3)
         fieldPolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        pageBarPolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        btnPolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        btnPolicy.setHorizontalStretch(1)
         # fieldPolicy.setHorizontalStretch(1)
 
         self.NEXT_ICON = nextIcon
@@ -69,9 +72,11 @@ class Assets:
         self.LIST_FONT = listFont
         self.BTN_FONT = btnFont
 
+        self.PAGE_BAR_POLICY = pageBarPolicy
         self.DESCRIPTION_POLICY = descriptionPolicy
         self.TITLES_POLICY = titlesPolicy
         self.SORT_POLICY = sortPolicy
         self.CALENDAR_POLICY = calendarPolicy
         self.FIELD_POLICY = fieldPolicy
+        self.BTN_POLICY = btnPolicy
 
